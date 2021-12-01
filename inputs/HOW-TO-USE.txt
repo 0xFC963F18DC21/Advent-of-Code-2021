@@ -1,5 +1,5 @@
 Add your input files to this directory.
 
-To use the,, the aoc2021.util.input namespace has some utility fetching
+To use this directory, aoc2021.util.input namespace has some utility fetching
 functions to get and optionally parse the input. The file extension must be .txt
 and it can be ignored in the file path string passed to those functions.
