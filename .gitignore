@@ -8,3 +8,6 @@
 
 # Ignore generated nREPL file.
 .nrepl-port
+
+# Ignore other files not related to Advent of Code.
+/src/problems99/*
