@@ -7,11 +7,11 @@
 (defn ^Long count-snd-lager [pairs]
   (count (filter (fn [[a b]] (> b a)) pairs)))
 
-(defn part1 []
+(defn ^Long part1 []
   (let [zipped (map vector day1-ints (drop 1 day1-ints))]
     (count-snd-lager zipped)))
 
-(defn part2 []
+(defn ^Long part2 []
   (let [zipped (map vector day1-ints (drop 1 day1-ints) (drop 2 day1-ints))
         summed (map #(apply + %1) zipped)
         paired (map vector summed (drop 1 summed))]
