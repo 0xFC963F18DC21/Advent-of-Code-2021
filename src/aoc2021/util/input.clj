@@ -12,6 +12,7 @@
     (str/split-lines s)))
 
 (defn ^LazySeq get-parsed-input-lines [^String name func]
+  "Gets the lines of an input file, and parses them according to a parser function."
   (let [l (get-input-lines name)]
     (map func l)))
 
