@@ -1,0 +1,10 @@
+# Ignore Editor settings and project file.
+*.iml
+/.idea/
+
+# Ignore my input files
+/inputs/day*
+/inputs/example.txt
+
+# Ignore generated nREPL file.
+.nrepl-port
