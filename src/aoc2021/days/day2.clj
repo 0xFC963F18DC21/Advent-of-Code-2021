@@ -9,27 +9,19 @@
       (let [[cmd n] (str/split s #" ")]
         (list cmd (Integer/parseInt n))))))
 
-(defn new-sub-data [[dist depth aim] [cmd n]]
-  (if aim
-    (case cmd
-      "forward" (list (+ dist n) (+ depth (* aim n)) aim)
-      "down" (list dist depth (+ aim n))
-      "up" (list dist depth (- aim n)))
-    (case cmd
-      "forward" (list (+ dist n) depth)
-      "down" (list dist (+ depth n))
-      "up" (list dist (- depth n)))))
+(defn new-sub-data [[dist p2depth p1depth-p2aim] [cmd n]]
+  (case cmd
+    "forward" (list (+ dist n) (+ p2depth (* p1depth-p2aim n)) p1depth-p2aim)
+    "down" (list dist p2depth (+ p1depth-p2aim n))
+    "up" (list dist p2depth (- p1depth-p2aim n))))
 
 (defn get-path-sum [commands]
-  (reduce new-sub-data '(0 0) commands))
-
-(defn get-path-sum-aimed [commands]
   (reduce new-sub-data '(0 0 0) commands))
 
 (defn part1 []
-  (let [[ds dp] (get-path-sum (doall day2-pairs))]
+  (let [[ds _ dp] (get-path-sum (doall day2-pairs))]
     (* ds dp)))
 
 (defn part2 []
-  (let [[ds dp] (get-path-sum-aimed (doall day2-pairs))]
+  (let [[ds dp] (get-path-sum (doall day2-pairs))]
     (* ds dp)))
