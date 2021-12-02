@@ -11,3 +11,4 @@
 
 # Ignore other files not related to Advent of Code.
 /src/problems99/*
+/src/misc/*
