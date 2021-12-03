@@ -5,7 +5,7 @@
 (defn day3-lists []
   (util/get-parsed-input-lines
     "day3"
-    #(seq (map (fn [i] (Long/parseLong i)) (string/split %1 #"")))))
+    #(map (fn [i] (Long/parseLong i)) (string/split %1 #""))))
 
 (defn columnar-transpose [seq-of-seqs]
   (apply map list seq-of-seqs))
