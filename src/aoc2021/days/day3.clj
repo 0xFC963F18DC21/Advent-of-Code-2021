@@ -7,7 +7,7 @@
     "day3"
     #(map (fn [i] (Long/parseLong i)) (string/split %1 #""))))
 
-(defn columnar-transpose [seq-of-seqs]
+(defn transpose [seq-of-seqs]
   (apply map list seq-of-seqs))
 
 (defn count-n [seq n]
@@ -22,21 +22,21 @@
       (< zeroes ones) (list 0 1)
       :else (list 0 1))))
 
-(defn delta-epsilon [[acce accd] transposed-diagnostic]
-  (let [[e d] (digit-minmax transposed-diagnostic)]
+(defn delta-epsilon [[acce accd] tdiag]
+  (let [[e d] (digit-minmax tdiag)]
     (list (str acce e) (str accd d))))
 
 (defn singleton? [coll]
   (= 1 (count coll)))
 
 (defn life-solver [init]
-  (loop [ol init
-         cl init
+  (loop [ol  init
+         cl  init
          bit 0]
     (if (and (singleton? ol) (and singleton? cl))
       (list (first ol) (first cl))
-      (let [tol (columnar-transpose ol)
-            tcl (columnar-transpose cl)
+      (let [tol     (transpose ol)
+            tcl     (transpose cl)
             [_ obc] (digit-minmax (nth tol bit))
             [cbc _] (digit-minmax (nth tcl bit))]
         (recur
@@ -45,14 +45,14 @@
           (inc bit))))))
 
 (defn part1 []
-  (let [transposed  (columnar-transpose (day3-lists))
+  (let [transposed    (transpose (day3-lists))
         [e-str d-str] (reduce delta-epsilon (list "" "") transposed)
-        eps         (Long/parseLong e-str 2)
-        dlt         (Long/parseLong d-str 2)]
+        eps           (Long/parseLong e-str 2)
+        dlt           (Long/parseLong d-str 2)]
     (* eps dlt)))
 
 (defn part2 []
-  (let [p2l (day3-lists)
+  (let [p2l   (day3-lists)
         [o c] (life-solver p2l)
         o-num (Long/parseLong (apply str o) 2)
         c-num (Long/parseLong (apply str c) 2)]
