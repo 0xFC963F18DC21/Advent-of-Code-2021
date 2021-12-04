@@ -62,8 +62,7 @@
   (map (fn [[_ r]] (vals r)) board))
 
 (defn check-win [board]
-  ; The outer reduction checks rows, we now need to check the columns for a win
-  ; too. Probably using a helper.
+  ; The outer reduction checks rows, we now need to check the columns for a win too. Probably using a helper.
   (reduce
     (fn [acc [_ r]]
       (or acc (reduce #(and %1 %2) (vals r))))
