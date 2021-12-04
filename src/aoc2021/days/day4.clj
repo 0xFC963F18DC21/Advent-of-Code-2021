@@ -82,16 +82,7 @@
     boards))
 
 (defn get-score [called board]
-  (let [sum (reduce
-              (fn [acc [_ r]]
-                (apply + acc (->> r
-                                  (filter #(->> %
-                                                (next)
-                                                (first)
-                                                (not)))
-                                  (map first))))
-              0
-              board)]
+  (let [sum (reduce (fn [acc [_ r]] (apply + acc (->> r (filter #(->> % (next) (first) (not))) (map first)))) 0 board)]
     (* called sum)))
 
 (defn part1 []
@@ -112,7 +103,7 @@
          bs             boards
          last-wins      nil
          last-c         nil]
-    (if c
+    (if (and c (-> bs (empty?) (not)))
       (let [updated (map #(call-number % c) bs)
             wins    (filter check-win updated)]
         (if (-> wins (empty?) (not))
