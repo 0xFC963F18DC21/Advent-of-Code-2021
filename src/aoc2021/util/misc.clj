@@ -17,3 +17,15 @@
     (> n 0) 1
     (< n 0) -1
     :else 0))
+
+(defmacro trace
+  "Prints the result of an expression, and returns it. Useful for debugging."
+  [expr]
+  `(let [macro-result# ~expr]
+     (println macro-result#)
+     macro-result#))
+
+(defn non-nil?
+  "Returns true if an item is non-nil. Returns false if nil"
+  [x]
+  (-> x (nil?) (not)))
