@@ -29,3 +29,10 @@
   "Returns true if an item is non-nil. Returns false if nil"
   [x]
   (-> x (nil?) (not)))
+
+(defn filter-map
+  "Filters a map, and returns the new map created by filtering the map."
+  [f map']
+  (->> map'
+       (filter f)
+       (into {})))

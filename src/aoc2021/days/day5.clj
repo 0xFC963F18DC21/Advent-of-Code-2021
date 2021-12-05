@@ -28,16 +28,16 @@
     (= y1 y2) (map (fn [i] {(list i y1) 1}) (range' x1 x2))
     :else     (map (fn [p] {p 1}) (pair-range fst snd))))
 
-(defn part1 []
-  (let [planar-lines    (filter is-planar day5-line-segments)
-        as-planar-lines (apply concat (map create-line planar-lines))
-        points-of-lines (reduce #(merge-with + %1 %2) {} as-planar-lines)
-        intersections   (filter (fn [[_ c]] (> c 1)) points-of-lines)]
-    (count intersections)))
-
-(defn part2 []
-  (let [lines           (apply concat (map create-line day5-line-segments))
+(defn count-intersections [raw-segments planar-only?]
+  (let [used-segments   (if planar-only? (filter is-planar raw-segments) raw-segments)
+        lines           (apply concat (map create-line used-segments))
         points-of-lines (reduce #(merge-with + %1 %2) {} lines)
         intersections   (filter (fn [[_ c]] (> c 1)) points-of-lines)]
     (count intersections)))
+
+(defn part1 []
+  (count-intersections day5-line-segments true))
+
+(defn part2 []
+  (count-intersections day5-line-segments false))
 
