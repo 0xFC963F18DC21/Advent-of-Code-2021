@@ -2,7 +2,7 @@
 *.iml
 /.idea/
 
-# Ignore my input files
+# Ignore my input files.
 /inputs/day*
 /inputs/example.txt
 
@@ -12,3 +12,4 @@
 # Ignore other files not related to Advent of Code.
 /src/problems99/*
 /src/misc/*
+/outputs/*

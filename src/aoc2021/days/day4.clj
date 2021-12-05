@@ -65,11 +65,11 @@
   ; The outer reduction checks rows, we now need to check the columns for a win too. Probably using a helper.
   (reduce
     (fn [acc [_ r]]
-      (or acc (reduce #(and %1 %2) (vals r))))
+      (if acc (reduced acc) (reduce #(and %1 %2) (vals r))))
     ; Columnar check for win.
     (reduce
       (fn [acc vs]
-        (or acc (reduce #(and %1 %2) vs)))
+        (if acc (reduced acc) (reduce #(and %1 %2) vs)))
       false
       (-> board (board-to-list-of-lists) (misc/transpose)))
     board))
