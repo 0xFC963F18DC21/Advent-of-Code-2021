@@ -36,3 +36,8 @@
   (->> map'
        (filter f)
        (into {})))
+
+(defn TODO
+  "Acts as a bit of aggressive todo marker."
+  [& _]
+  (throw (UnsupportedOperationException. "Please implement this function.")))
