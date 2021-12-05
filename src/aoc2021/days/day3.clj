@@ -2,7 +2,7 @@
   (:require [aoc2021.util.input :as util]
             [clojure.string :as string]))
 
-(defn day3-lists []
+(def day3-lists
   (util/get-parsed-input-lines
     "day3"
     #(map (fn [i] (Long/parseLong i)) (string/split %1 #""))))
@@ -45,14 +45,14 @@
           (inc bit))))))
 
 (defn part1 []
-  (let [transposed    (transpose (day3-lists))
+  (let [transposed    (transpose day3-lists)
         [e-str d-str] (reduce delta-epsilon (list "" "") transposed)
         eps           (Long/parseLong e-str 2)
         dlt           (Long/parseLong d-str 2)]
     (* eps dlt)))
 
 (defn part2 []
-  (let [p2l   (day3-lists)
+  (let [p2l   day3-lists
         [o c] (life-solver p2l)
         o-num (Long/parseLong (apply str o) 2)
         c-num (Long/parseLong (apply str c) 2)]

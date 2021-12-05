@@ -3,7 +3,7 @@
             [aoc2021.util.input :as util]
             [aoc2021.util.misc :as misc]))
 
-(defn day4-lines []
+(def day4-lines
   (->> "day4"
        (util/get-input-lines)
        (filter not-empty)))
@@ -85,7 +85,7 @@
     (* called sum)))
 
 (defn part1 []
-  (loop [[calls boards] (fully-parse (day4-lines))
+  (loop [[calls boards] (fully-parse day4-lines)
          [c & cs]       calls
          bs             boards]
     (if c
@@ -97,7 +97,7 @@
       (throw (IllegalStateException. "Ran out of calls.")))))
 
 (defn part2 []
-  (loop [[calls boards] (fully-parse (day4-lines))
+  (loop [[calls boards] (fully-parse day4-lines)
          [c & cs]       calls
          bs             boards
          last-wins      nil

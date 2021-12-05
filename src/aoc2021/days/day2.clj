@@ -7,7 +7,7 @@
     "day2"
     (fn [s]
       (let [[cmd n] (str/split s #" ")]
-        (list cmd (Integer/parseInt n))))))
+        (list cmd (Long/parseLong n))))))
 
 (defn new-sub-data [[dist p2depth p1depth-p2aim] [cmd n]]
   (case cmd

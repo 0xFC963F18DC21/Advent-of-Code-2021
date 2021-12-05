@@ -3,7 +3,7 @@
             [aoc2021.util.misc :as misc]
             [clojure.string :as str]))
 
-(defn day5-line-segments []
+(def day5-line-segments
   (->> "day5"
        (util/get-input-lines)
        (map #(str/split % #" -> |,"))
@@ -29,14 +29,14 @@
     :else     (map (fn [p] {p 1}) (pair-range fst snd))))
 
 (defn part1 []
-  (let [planar-lines    (filter is-planar (day5-line-segments))
+  (let [planar-lines    (filter is-planar day5-line-segments)
         as-planar-lines (apply concat (map create-line planar-lines))
         points-of-lines (reduce #(merge-with + %1 %2) {} as-planar-lines)
         intersections   (filter (fn [[_ c]] (> c 1)) points-of-lines)]
     (count intersections)))
 
 (defn part2 []
-  (let [lines           (apply concat (map create-line (day5-line-segments)))
+  (let [lines           (apply concat (map create-line day5-line-segments))
         points-of-lines (reduce #(merge-with + %1 %2) {} lines)
         intersections   (filter (fn [[_ c]] (> c 1)) points-of-lines)]
     (count intersections)))
