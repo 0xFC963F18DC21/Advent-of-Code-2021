@@ -42,4 +42,3 @@
   (-> day6-fish
       (simulate 256)
       (count-fish)))
-
