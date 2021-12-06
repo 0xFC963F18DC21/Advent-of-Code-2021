@@ -1,4 +1,5 @@
-(ns aoc2021.util.func)
+(ns aoc2021.util.func
+  (:import (java.lang FunctionalInterface)))
 
 (defn flip
   "Flips the argument order of a two-argument function."
@@ -15,3 +16,19 @@
   I.e. if f is the one-argument function and g is the two-argument function,
   they are applied in the following manner: (f (g arg1 arg2))."
   [f g] #(f (g %1 %2)))
+
+(defmacro ^FunctionalInterface afi1
+  "Turns this Clojure function into a 1-arity Java SAM FunctionalInterface object."
+  [f intr-name sam-name]
+  `(reify
+     ~intr-name
+     (~sam-name [_# arg#]
+       (~f arg#))))
+
+(defmacro ^FunctionalInterface afi2
+  "Turns this Clojure function into a 2-arity Java SAM FunctionalInterface object."
+  [f intr-name sam-name]
+  `(reify
+     ~intr-name
+     (~sam-name [_# arg1# arg2#]
+       (~f arg1# arg2#))))

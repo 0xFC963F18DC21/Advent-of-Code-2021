@@ -17,29 +17,29 @@
        (map #(Long/parseLong %))
        (fish-to-map)))
 
-(defn simulate [fishes]
-  (reduce
-    (fn [acc [fish cnt]]
-      (if (= fish 0)
-        (merge-with + acc {8 cnt 6 cnt})
-        (merge-with + acc {(dec fish) cnt})))
-    {}
+(defn simulate [fishes days]
+  (if (> days 0)
+    (recur
+      (reduce
+        (fn [acc [fish cnt]]
+          (if (= fish 0)
+            (merge-with + acc {8 cnt 6 cnt})
+            (merge-with + acc {(dec fish) cnt})))
+        {}
+        fishes)
+      (dec days))
     fishes))
 
 (defn count-fish [fishes]
   (reduce (fn [acc [_ c]] (+ acc c)) 0 fishes))
 
 (defn part1 []
-  (->> day6-fish
-       (iterate simulate)
-       (drop 80)
-       (first)
-       (count-fish)))
+  (-> day6-fish
+      (simulate 80)
+      (count-fish)))
 
 (defn part2 []
-  (->> day6-fish
-       (iterate simulate)
-       (drop 256)
-       (first)
-       (count-fish)))
+  (-> day6-fish
+      (simulate 256)
+      (count-fish)))
 
