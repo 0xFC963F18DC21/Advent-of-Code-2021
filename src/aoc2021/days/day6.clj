@@ -11,7 +11,8 @@
        (apply str)
        (#(str/split % #","))
        (map bigint)
-       (fish-to-map)))
+       (fish-to-map)
+       (lazy-seq)))
 
 (defn fish-to-map [fishes]
   (reduce
