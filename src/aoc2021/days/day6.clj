@@ -2,11 +2,7 @@
   (:require [aoc2021.util.input :as util]
             [clojure.string :as str]))
 
-(defn fish-to-map [fishes]
-  (reduce
-    (fn [acc fish] (merge-with + acc {fish (bigint (count (filter #(= % fish) fishes)))}))
-    {}
-    '(0 1 2 3 4 5 6 7 8)))
+(declare fish-to-map)
 
 (def day6-fish
   (->> "day6"
@@ -16,6 +12,12 @@
        (#(str/split % #","))
        (map bigint)
        (fish-to-map)))
+
+(defn fish-to-map [fishes]
+  (reduce
+    (fn [acc fish] (merge-with + acc {fish (bigint (count (filter #(= % fish) fishes)))}))
+    {}
+    '(0 1 2 3 4 5 6 7 8)))
 
 (defn simulate [fishes days]
   (if (> days 0)
