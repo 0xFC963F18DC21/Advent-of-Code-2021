@@ -4,7 +4,7 @@
 
 (defn fish-to-map [fishes]
   (reduce
-    (fn [acc fish] (merge-with + acc {fish (count (filter #(= % fish) fishes))}))
+    (fn [acc fish] (merge-with + acc {fish (bigint (count (filter #(= % fish) fishes)))}))
     {}
     '(0 1 2 3 4 5 6 7 8)))
 
@@ -14,7 +14,7 @@
        (filter #(and (not= \newline %) (not= \return %)))
        (apply str)
        (#(str/split % #","))
-       (map #(Long/parseLong %))
+       (map bigint)
        (fish-to-map)))
 
 (defn simulate [fishes days]
@@ -31,7 +31,7 @@
     fishes))
 
 (defn count-fish [fishes]
-  (reduce (fn [acc [_ c]] (+ acc c)) 0 fishes))
+  (reduce (fn [acc [_ c]] (+ acc c)) 0N fishes))
 
 (defn part1 []
   (-> day6-fish
