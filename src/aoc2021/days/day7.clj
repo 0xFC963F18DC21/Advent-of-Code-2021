@@ -19,18 +19,23 @@
 
 (defn fuel-consumption [crabs f-strat mean]
   (reduce
-    (fn [acc crab]
+    (fn [acc ^Long crab]
       (let [diff (- crab mean)]
         (+ acc (f-strat (Math/abs diff)))))
     0
     crabs))
 
 (defn min-dist-consumption [f-strat]
-  (let [mn (apply min day7-crabs)
-        mx (apply max day7-crabs)]
-    (->> (range mn (inc mx))
-         (map #(list % (fuel-consumption day7-crabs f-strat %)))
-         (apply min-key #(nth % 1)))))
+  (let [srt    (sort day7-crabs)
+        cnt    (count day7-crabs)
+        mean   (long (/ (apply + day7-crabs) cnt))
+        mn-1   (dec mean)
+        median (nth srt (/ cnt 2))
+        med-1  (nth srt (dec (/ cnt 2)))]
+    (apply min-key
+           #(nth % 1)
+           (map #(list % (fuel-consumption day7-crabs f-strat %))
+                (list mean mn-1 median med-1)))))
 
 (defn part1 []
   (min-dist-consumption linear-fuel-rate))
