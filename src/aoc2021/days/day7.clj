@@ -25,20 +25,23 @@
     0
     crabs))
 
-(defn min-dist-consumption [f-strat]
-  (let [srt    (sort day7-crabs)
+(defn min-dist-consumption [f-strat second?]
+  (let [srt    (lazy-seq (sort day7-crabs))
         cnt    (count day7-crabs)
         mean   (long (/ (apply + day7-crabs) cnt))
         mn-1   (dec mean)
-        median (nth srt (/ cnt 2))
-        med-1  (nth srt (dec (/ cnt 2)))]
+        median (or second? (nth srt (/ cnt 2)))
+        med-1  (or second? (nth srt (dec (/ cnt 2))))]
     (apply min-key
            #(nth % 1)
            (map #(list % (fuel-consumption day7-crabs f-strat %))
-                (list mean mn-1 median med-1)))))
+                (apply list
+                       (if second?
+                         (list mean mn-1)
+                         (list median med-1)))))))
 
 (defn part1 []
-  (min-dist-consumption linear-fuel-rate))
+  (min-dist-consumption linear-fuel-rate false))
 
 (defn part2 []
-  (min-dist-consumption triangle-fuel-rate))
+  (min-dist-consumption triangle-fuel-rate true))
