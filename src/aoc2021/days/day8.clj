@@ -1,8 +1,7 @@
 (ns aoc2021.days.day8
   (:require [aoc2021.util.input :as inp]
             [clojure.set :as sets]
-            [clojure.string :as strs]
-            [aoc2021.util.misc :as misc]))
+            [clojure.string :as strs]))
 
 (def day8-sequences
   (-> "day8"
