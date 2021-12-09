@@ -25,7 +25,6 @@
 (defn basin?? [num]
   (not= num 9))
 
-; Based on a modified flood-fill algorithm.
 (defn basin [grid [x y :as cl]]
   (if (basin?? (grid-get grid cl))
     (loop [[cx cy :as cl] (list x y)
@@ -66,5 +65,3 @@
         sizes       (map count basins)
         [a b c & _] (sort #(compare %2 %1) sizes)]
     (* a b c)))
-
-

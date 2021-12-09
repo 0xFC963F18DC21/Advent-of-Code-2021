@@ -1,10 +1,10 @@
 (ns aoc2021.days.day7
-  (:require [aoc2021.util.input :as util]
+  (:require [aoc2021.util.input :as inp]
             [clojure.string :as str]))
 
 (def day7-crabs
   (->> "day7"
-       (util/get-input-file)
+       (inp/get-input-file)
        (filter #(and (not= \newline %) (not= \return %)))
        (apply str)
        (#(str/split % #","))

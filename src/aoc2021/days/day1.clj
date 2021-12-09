@@ -1,8 +1,8 @@
 (ns aoc2021.days.day1
-  (:require [aoc2021.util.input :as util]))
+  (:require [aoc2021.util.input :as inp]))
 
 (def day1-ints
-  (util/get-parsed-input-lines "day1" #(Integer/parseInt %1)))
+  (inp/get-parsed-input-lines "day1" #(Integer/parseInt %1)))
 
 (defn ^Long count-snd-lager [pairs]
   (count (filter (fn [[a b]] (> b a)) pairs)))

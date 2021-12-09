@@ -1,5 +1,5 @@
 (ns aoc2021.days.day4
-  (:require [clojure.string :as str]
+  (:require [clojure.string :as inp]
             [aoc2021.util.input :as util]
             [aoc2021.util.misc :as misc]))
 
@@ -9,7 +9,7 @@
        (filter not-empty)))
 
 (defn split-long-parse [st]
-  (map #(Long/parseLong %) (filter not-empty (str/split st #" "))))
+  (map #(Long/parseLong %) (filter not-empty (inp/split st #" "))))
 
 (defn make-bingo-board [[[a1 a2 a3 a4 a5]
                          [b1 b2 b3 b4 b5]
@@ -42,7 +42,7 @@
 
 (defn extract-called-numbers [[i & is]]
   (vector
-    (map #(Long/parseLong %) (str/split i #","))
+    (map #(Long/parseLong %) (inp/split i #","))
     (map split-long-parse is)))
 
 (defn create-boards [inp]

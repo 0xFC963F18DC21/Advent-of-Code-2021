@@ -1,9 +1,9 @@
 (ns aoc2021.days.day2
   (:require [clojure.string :as str]
-            [aoc2021.util.input :as util]))
+            [aoc2021.util.input :as inp]))
 
 (def day2-pairs
-  (util/get-parsed-input-lines
+  (inp/get-parsed-input-lines
     "day2"
     (fn [s]
       (let [[cmd n] (str/split s #" ")]

@@ -1,11 +1,11 @@
 (ns aoc2021.days.day5
-  (:require [aoc2021.util.input :as util]
+  (:require [aoc2021.util.input :as inp]
             [aoc2021.util.misc :as misc]
             [clojure.string :as str]))
 
 (def day5-line-segments
   (->> "day5"
-       (util/get-input-lines)
+       (inp/get-input-lines)
        (map #(str/split % #" -> |,"))
        (map (fn [l] (map #(Long/parseLong %) l)))
        (map (fn [[x1 y1 x2 y2]] (list (list x1 y1) (list x2 y2))))))

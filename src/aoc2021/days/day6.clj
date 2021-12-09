@@ -1,12 +1,12 @@
 (ns aoc2021.days.day6
-  (:require [aoc2021.util.input :as util]
+  (:require [aoc2021.util.input :as inp]
             [clojure.string :as str]))
 
 (declare fish-to-map)
 
 (def day6-fish
   (->> "day6"
-       (util/get-input-file)
+       (inp/get-input-file)
        (filter #(and (not= \newline %) (not= \return %)))
        (apply str)
        (#(str/split % #","))

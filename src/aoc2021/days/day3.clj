@@ -1,9 +1,9 @@
 (ns aoc2021.days.day3
-  (:require [aoc2021.util.input :as util]
+  (:require [aoc2021.util.input :as inp]
             [clojure.string :as string]))
 
 (def day3-lists
-  (util/get-parsed-input-lines
+  (inp/get-parsed-input-lines
     "day3"
     #(map (fn [i] (Long/parseLong i)) (string/split %1 #""))))
 
