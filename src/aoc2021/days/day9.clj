@@ -13,36 +13,37 @@
 (defn grid-get [grid [x y]]
   (nth (nth grid y nil) x Long/MAX_VALUE))
 
-(defn low-point? [grid [x y :as cl]]
-  (let [this    (grid-get grid cl)
-        checked (list [x (dec y)] [(inc x) y] [x (inc y)] [(dec x) y])]
+(defn neighbours [[x y]]
+  (list [x (dec y)] [(inc x) y] [x (inc y)] [(dec x) y]))
+
+(defn low-point? [grid cl]
+  (let [this    (grid-get grid cl)]
     (reduce
       (fn [b-acc loc]
         (if (< this (grid-get grid loc)) b-acc (reduced false)))
       true
-      checked)))
+      (neighbours cl))))
 
 (defn basin?? [num]
   (not= num 9))
 
-(defn basin [grid [x y :as cl]]
+(defn basin [grid cl]
   (if (basin?? (grid-get grid cl))
-    (loop [[cx cy :as cl] (list x y)
+    (loop [cl'         cl
            locations   #{}
-           queue       ()]
-      (let [this    (grid-get grid cl)
-            checked (list [cx (dec cy)] [(inc cx) cy] [cx (inc cy)] [(dec cx) cy])
-            n-queue (reduce
+           stack       ()]
+      (let [this    (grid-get grid cl')
+            n-stack (reduce
                       (fn [nq loc]
                         (let [val (grid-get grid loc)]
                           (if (and (not= val Long/MAX_VALUE) (basin?? val) (< this val))
                             (cons loc nq)
                             nq)))
-                      queue
-                      checked)]
-        (if (empty? n-queue)
-          (sets/union #{cl} locations)
-          (recur (first n-queue) (sets/union #{cl} locations) (next n-queue)))))
+                      stack
+                      (neighbours cl'))]
+        (if (empty? n-stack)
+          (sets/union #{cl'} locations)
+          (recur (first n-stack) (sets/union #{cl'} locations) (next n-stack)))))
     nil))
 
 (defn risk-level [grid cl]
