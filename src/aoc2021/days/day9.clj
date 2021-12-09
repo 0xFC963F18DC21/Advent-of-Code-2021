@@ -1,5 +1,6 @@
 (ns aoc2021.days.day9
   (:require [aoc2021.util.input :as inp]
+            [clojure.set :as sets]
             [clojure.string :as strs]))
 
 (def day9-grid
@@ -28,7 +29,7 @@
 (defn basin [grid [x y :as cl]]
   (if (basin?? (grid-get grid cl))
     (loop [[cx cy :as cl] (list x y)
-           locations   ()
+           locations   #{}
            queue       ()]
       (let [this    (grid-get grid cl)
             checked (list [cx (dec cy)] [(inc cx) cy] [cx (inc cy)] [(dec cx) cy])
@@ -41,8 +42,8 @@
                       queue
                       checked)]
         (if (empty? n-queue)
-          (set (cons cl locations))
-          (recur (first n-queue) (cons cl locations) (next n-queue)))))
+          (sets/union #{cl} locations)
+          (recur (first n-queue) (sets/union #{cl} locations) (next n-queue)))))
     nil))
 
 (defn risk-level [grid cl]
