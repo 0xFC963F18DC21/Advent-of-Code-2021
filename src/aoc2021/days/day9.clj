@@ -1,6 +1,5 @@
 (ns aoc2021.days.day9
   (:require [aoc2021.util.input :as inp]
-            [clojure.set :as sets]
             [clojure.string :as strs]))
 
 (def day9-grid
@@ -30,20 +29,22 @@
 (defn basin [grid cl]
   (if (basin?? (grid-get grid cl))
     (loop [cl'         cl
-           locations   #{}
+           locations   ()
            stack       ()]
       (let [this    (grid-get grid cl')
             n-stack (reduce
-                      (fn [nq loc]
+                      (fn [ns loc]
                         (let [val (grid-get grid loc)]
-                          (if (and (not= val Long/MAX_VALUE) (basin?? val) (< this val))
-                            (cons loc nq)
-                            nq)))
+                          (if (and (not (some #{loc} (concat locations stack)))
+                                   (not= val Long/MAX_VALUE) (basin?? val)
+                                   (< this val))
+                            (cons loc ns)
+                            ns)))
                       stack
                       (neighbours cl'))]
         (if (empty? n-stack)
-          (sets/union #{cl'} locations)
-          (recur (first n-stack) (sets/union #{cl'} locations) (next n-stack)))))
+          (cons cl' locations)
+          (recur (first n-stack) (cons cl' locations) (next n-stack)))))
     nil))
 
 (defn risk-level [grid cl]
