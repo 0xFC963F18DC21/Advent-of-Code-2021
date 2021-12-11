@@ -5,17 +5,11 @@
 (def day11-grid
   (->> "day11"
        (inp/get-input-lines)
-       (map #(strs/split % #""))
-       (map (fn [l] (map #(Long/parseLong %) l)))
-       (map (fn [l] (reduce (fn [m [x v]] (merge m {x v})) {} (map list (range 0 (count l)) l))))
-       (#(reduce (fn [m [y l]] (merge m {y l})) {} (map list (range 0 (count %)) %)))))
+       (mapv #(strs/split % #""))
+       (mapv (fn [l] (mapv #(Long/parseLong %) l)))))
 
 (defn increment-all [grid]
-  (reduce
-    (fn [m [y xs]]
-      (assoc m y (reduce (fn [m [x v]] (assoc m x (inc v))) {} xs)))
-    {}
-    grid))
+  (mapv #(mapv inc %) grid))
 
 (defn neighbours [grid x y]
   (let [my (count grid)
@@ -35,15 +29,15 @@
   (assoc grid y (assoc (grid y) x v)))
 
 (defn flash-at [grid x y]
-  (if (or (= :!! (get-at grid x y)) (< (get-at grid x y) 10))
+  (if (or (= '* (get-at grid x y)) (< (get-at grid x y) 10))
     (list grid false)
     (let [ns     (neighbours grid x y)
-          marked (set-at grid x y :!!)]
+          marked (set-at grid x y '*)]
       (list
         (reduce
           (fn [m [nx ny]]
             (let [cv (get-at grid nx ny)]
-              (if (not= cv :!!)
+              (if (not= cv '*)
                 (set-at m nx ny (inc (get-at m nx ny)))
                 m)))
           marked
@@ -67,11 +61,7 @@
         (list post-flash ofs)))))
 
 (defn clear-flashes [grid]
-  (reduce
-    (fn [m [y xs]]
-      (assoc m y (reduce (fn [m [x v]] (assoc m x (if (= v :!!) 0 v))) {} xs)))
-    {}
-    grid))
+  (mapv (fn [l] (mapv #(if (= % '*) 0 %) l)) grid))
 
 (defn simulate [grid steps]
   (loop [cgrid grid
