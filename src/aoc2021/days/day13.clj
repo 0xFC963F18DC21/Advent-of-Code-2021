@@ -6,11 +6,13 @@
 (defn generate-info [[dots folds]]
   (list
     (reduce
-      #(let [[sx sy] (strs/split %2 #",")] (conj %1 (list (Long/parseLong sx) (Long/parseLong sy))))
+      #(let [[sx sy] (strs/split %2 #",")]
+         (conj %1 (list (Long/parseLong sx) (Long/parseLong sy))))
       #{}
       dots)
     (reduce
-      #(let [[_ axis v] (re-find #".+([xy])=(.+)" %2)] (conj %1 (list (first axis) (Long/parseLong v))))
+      #(let [[_ axis v] (re-find #".+([xy])=(.+)" %2)]
+         (conj %1 (list (first axis) (Long/parseLong v))))
       []
       folds)))
 
@@ -22,11 +24,14 @@
        (generate-info)
        (lazy-seq)))
 
-(defn fold-once [grid [axis v]]
+(defn gen-fold [[axis v] [x y :as p]]
   (case axis
-    \x (reduce (fn [cur [x y :as p]] (if (< x v) (conj cur p) (conj cur (list (- v (- x v)) y)))) #{} grid)
-    \y (reduce (fn [cur [x y :as p]] (if (< y v) (conj cur p) (conj cur (list x (- v (- y v)))))) #{} grid)
+    \x (if (< x v) p (list (- v (- x v)) y))
+    \y (if (< y v) p (list x (- v (- y v))))
     :Invalid-axis!))
+
+(defn fold-once [grid fold]
+  (reduce (fn [cur p] (conj cur (gen-fold fold p))) #{} grid))
 
 (defn write-grid [grid]
   (let [max-x (reduce max 0 (map first grid))
@@ -37,7 +42,7 @@
     (io/delete-file "outputs/day31-part2.txt" :Does-not-exist-yet!)
     (doseq [y ry
             x rx]
-      (if (contains? grid (list x y)) (.append sb \#) (.append sb \space))
+      (if (contains? grid (list x y)) (.append sb \u25A0) (.append sb \space))
       (if (= x max-x) (.append sb \newline)))
     (spit "outputs/day13-part2.txt" (.toString sb))))
 
@@ -47,6 +52,4 @@
 
 (defn part2 []
   (let [[grid folds] day13-info]
-    (->> grid
-         (#(reduce fold-once % folds))
-         (write-grid))))
+    (write-grid (reduce fold-once grid folds))))
