@@ -40,7 +40,7 @@
         sb    (StringBuilder.)]
     (doseq [y ry
             x rx]
-      (if (contains? grid (list x y)) (.append sb \u25A0) (.append sb \space))
+      (if (contains? grid (list x y)) (.append sb \u2588) (.append sb \space))
       (if (= x max-x) (.append sb \newline)))
     (println (.toString sb))))
 
