@@ -1,6 +1,5 @@
 (ns aoc2021.days.day13
   (:require [aoc2021.util.input :as inp]
-            [clojure.java.io :as io]
             [clojure.string :as strs]))
 
 (defn generate-info [[dots folds]]
@@ -39,12 +38,11 @@
         rx    (range 0 (inc max-x))
         ry    (range 0 (inc max-y))
         sb    (StringBuilder.)]
-    (io/delete-file "outputs/day31-part2.txt" :Does-not-exist-yet!)
     (doseq [y ry
             x rx]
       (if (contains? grid (list x y)) (.append sb \u25A0) (.append sb \space))
       (if (= x max-x) (.append sb \newline)))
-    (spit "outputs/day13-part2.txt" (.toString sb))))
+    (println (.toString sb))))
 
 (defn part1 []
   (let [[grid [first & _]] day13-info]
