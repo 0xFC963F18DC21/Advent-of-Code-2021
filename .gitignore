@@ -2,9 +2,8 @@
 *.iml
 /.idea/
 
-# Ignore my input files.
-/inputs/day*
-/inputs/example.txt
+# Ignore my input and output files.
+/inputs/*
 
 # Ignore generated nREPL file.
 .nrepl-port
@@ -13,3 +12,7 @@
 /src/problems99/*
 /src/misc/*
 /outputs/*
+
+# Keep the HOW-TO-USE files.
+!/inputs/HOW-TO-USE.txt
+!/outputs/HOW-TO-USE.txt
