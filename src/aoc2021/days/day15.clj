@@ -9,12 +9,6 @@
        (mapv #(mapv (fn [n] (Long/parseLong (str n))) %))
        (apply vector)))
 
-(defn diagonal-movement [y]
-  (map list (range 0 y) (reverse (range 0 y))))
-
-(defn diagonal-iteration [sy]
-  (filter (fn [[x y]] (and (< x sy) (< y sy))) (apply concat (map diagonal-movement (range 0 (inc (* 2 sy)))))))
-
 (defn safe-2d-aget [arr y x sy sx not-found]
   (if (or (< x 0) (< y 0) (>= x sx) (>= y sy))
     not-found
