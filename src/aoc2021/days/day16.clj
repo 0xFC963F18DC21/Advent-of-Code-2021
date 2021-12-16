@@ -36,8 +36,8 @@
         [version rest] (split-at 3 bits)
         [type-id rest] (split-at 3 rest)]
     (swap! packet assoc :Version (b2d version))
-    (swap! packet assoc :Type-ID (b2d type-id))
-    (if (= (@packet :Type-ID) 4)
+    (swap! packet assoc :Type (b2d type-id))
+    (if (= (@packet :Type) 4)
       (loop [[[c? & four] left] (split-at 5 rest)
              so-far      (StringBuilder.)]
         (.append so-far (apply str four))
@@ -47,7 +47,7 @@
                (list @packet left))
           \1 (recur (split-at 5 left) so-far)))
       (let [[[ltid] left] (split-at 1 rest)]
-        (swap! packet assoc :Length-Type-ID (b2d [ltid]))
+        (swap! packet assoc :Length-Type (b2d [ltid]))
         (case ltid
           \0 (let [[len left]  (split-at 15 left)
                    [bits left] (split-at (b2d len) left)
@@ -76,7 +76,7 @@
 
 (defn calculate [pkt]
   (let [spks (lazy-seq (pkt :Sub-Packets))]
-    (case (pkt :Type-ID)
+    (case (pkt :Type)
       0 (reduce #(+ %1 (calculate %2)) 0 spks)
       1 (reduce #(* %1 (calculate %2)) 1 spks)
       2 (reduce #(min %1 (calculate %2)) Long/MAX_VALUE spks)
