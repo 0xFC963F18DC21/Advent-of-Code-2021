@@ -42,7 +42,9 @@
              so-far      (StringBuilder.)]
         (.append so-far (apply str four))
         (case c?
-          \0 (do (swap! packet assoc :Literal (b2d so-far)) (list @packet left))
+          \0 (do
+               (swap! packet assoc :Literal (b2d so-far))
+               (list @packet left))
           \1 (recur (split-at 5 left) so-far)))
       (let [[[ltid] left] (split-at 1 rest)]
         (swap! packet assoc :Length-Type-ID (b2d [ltid]))
@@ -95,3 +97,4 @@
        (parse-packets)
        (first)
        (calculate)))
+
