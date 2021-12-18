@@ -8,9 +8,6 @@
 
 (defn explode-helper [n1 n2]
   (cond
-    (and (nil? n1) (nil? n2))       (throw (Exception. "Two nil values given."))
-    (nil? n1)                       n2
-    (nil? n2)                       n1
     (and (vector? n1) (vector? n2)) [n1 n2]
     (vector? n1)                    (let [[a b] n1] [a (explode-helper b n2)])
     (vector? n2)                    (let [[a b] n2] [(explode-helper n1 a) b])
